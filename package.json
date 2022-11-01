@@ -5,7 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "assets": "npx http-server --cors -p 8081 assets/",
+    "dev": "npx http-server --cors -p 8080 public/"
   },
   "repository": {
     "type": "git",
@@ -17,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Saamu192/apollosnatch-api/issues"
   },
-  "homepage": "https://github.com/Saamu192/apollosnatch-api#readme"
+  "homepage": "https://github.com/Saamu192/apollosnatch-api#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
 }
