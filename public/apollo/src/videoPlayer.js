@@ -4,6 +4,7 @@ class VideoMediaPlayer {
     this.videoElement = null;
     this.sourceBuffer = null;
     this.selected = {};
+    this.videoDuration = 0;
   }
 
   initializeCodec() {
@@ -28,15 +29,27 @@ class VideoMediaPlayer {
       this.sourceOpenWrapper(mediaSource)
     );
   }
+
   sourceOpenWrapper(mediaSource) {
     return async (_) => {
       this.sourceBuffer = mediaSource.addSourceBuffer(this.manifestJSON.codec);
       const selected = (this.selected = this.manifestJSON.intro);
-      mediaSource.duration = 0;
+      mediaSource.duration = this.videoDuration;
+      await this.fileDownload(selected.url);
     };
-
-}
-async fileDownload()
+  }
+  async fileDownload(url) {
+    const prepareUrl = {
+      url,
+      fileResolution: 360,
+      fileResolutionTag: this.manifestJSON.fileResolutionTag,
+      hostTag: this.manifestJSON.hostTag,
+    };
+    const finalUrl = this.network.parseManifestURL(prepareUrl);
+    this.setVideoPlayerDuration(finalUrl);
+    const data = await this.network.fetchFile(finalUrl);
+    return this.processBufferSegments(data);
+  }
 }
 
 export { VideoMediaPlayer };
