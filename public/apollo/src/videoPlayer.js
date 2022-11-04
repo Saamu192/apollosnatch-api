@@ -1,9 +1,11 @@
 class VideoMediaPlayer {
-  constructor({ manifestJSON, network }) {
+  constructor({ manifestJSON, network, videoComponent }) {
     this.manifestJSON = manifestJSON;
     this.network = network;
+    this.videoComponent = videoComponent;
     this.videoElement = null;
     this.sourceBuffer = null;
+    this.activeItem = {};
     this.selected = {};
     this.videoDuration = 0;
   }
@@ -37,7 +39,21 @@ class VideoMediaPlayer {
       const selected = (this.selected = this.manifestJSON.intro);
       mediaSource.duration = this.videoDuration;
       await this.fileDownload(selected.url);
+      setInterval(this.waitForQuestion.bind(this), 200);
     };
+  }
+
+  waitForQuestion() {
+    const currentTime = parseInt(this.videoElement.currentTime);
+    const option = this.selected.at === currentTime;
+    if (!option) {
+      return;
+    }
+    if (this.activeItem.url === this.selected.url) {
+      return;
+    }
+    this.videoComponent.configureModal(this.selected.options);
+    this.activeItem = this.selected;
   }
 
   async fileDownload(url) {
