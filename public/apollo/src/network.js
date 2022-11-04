@@ -39,5 +39,3 @@ class Network {
     return item.resolution;
   }
 }
-
-export { Network };
