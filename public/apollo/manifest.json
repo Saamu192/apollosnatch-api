@@ -1,0 +1,28 @@
+{
+  "hostTag": "$HOST",
+  "fileResolutionTag": "$RESOLUTION",
+  "localHost": "http://127.0.0.1:8081",
+  "productionHost": "",
+  "intro": {
+    "url": "$HOST/timeline/01.apollo_dormindo/01.apollo_dormindo-7.987664-$RESOLUTION.mp4",
+    "at": 5,
+    "options": ["Bom dia do Apollo", "Apollo Lutando Contra um Morango"],
+    "defaultOption": ""
+  },
+  "bomdia": {
+    "url": "$HOST/timeline/02.apollo_bomdia/02.apollo_bomdia-24.497052-$RESOLUTION.mp4",
+    "at": 20,
+    "options": ["Dar tchau ao Apollo", "Apollo Lutando Contra um Morango"],
+    "defaultOption": "Dar tchau ao Apollo"
+  },
+  "morango": {
+    "url": "$HOST/timeline/02.apollo_brincando_com_morango/02.apollo_brincando_com_morango-26.888707-$RESOLUTION.mp4",
+    "at": 21,
+    "options": ["Dar tchau ao Apollo", "Dar bom dia ao Apollo"],
+    "defaultOption": "Dar tchau ao Apollo"
+  },
+  "tchau": {
+    "url": "$HOST/timeline/01.out_tchau/03.out_tchau-5.781769-$RESOLUTION.mp4",
+    "at": ""
+  }
+}
