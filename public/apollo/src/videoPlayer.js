@@ -57,6 +57,23 @@ class VideoMediaPlayer {
     const [name, videoDuration] = bars[bars.length - 1].split("-");
     this.videoDuration += videoDuration;
   }
+
+  async processBufferSegments(allSegments) {
+    const sourceBuffer = this.sourceBuffer;
+    sourceBuffer.appendBuffer(allSegments);
+
+    return new Promise((resolve, reject) => {
+      const updateEnd = (_) => {
+        sourceBuffer.removeEventListener("updateend", updateEnd);
+        sourceBuffer.timestampOffset = this.videoDuration;
+
+        return resolve();
+      };
+
+      sourceBuffer.addEventListener("updateend", updateEnd);
+      sourceBuffer.addEventListener("error", reject);
+    });
+  }
 }
 
 export { VideoMediaPlayer };
