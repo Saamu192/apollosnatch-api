@@ -66,6 +66,7 @@ class VideoMediaPlayer {
       hostTag: this.manifestJSON.hostTag,
     };
     const url = this.network.parseManifestURL(prepareUrl);
+    console.log(url);
     return this.network.getProperResolution(url);
   }
   async nextChunk(data) {

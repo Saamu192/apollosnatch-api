@@ -1,4 +1,4 @@
-class Network {
+class NetworkHost {
   constructor({ host }) {
     this.host = host;
   }
