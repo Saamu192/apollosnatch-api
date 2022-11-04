@@ -56,6 +56,17 @@ class VideoMediaPlayer {
     this.activeItem = this.selected;
   }
 
+  async nextChunck(data) {
+    const key = data.toLowerCase();
+    const selected = this.manifestJSON[key];
+    this.selected = {
+      ...selected,
+      at: parseInt(this.videoElement.currentTime + selected.at),
+    };
+    this.videoElement.play();
+    await this.fileDownload(selected.url);
+  }
+
   async fileDownload(url) {
     const prepareUrl = {
       url,
@@ -72,7 +83,7 @@ class VideoMediaPlayer {
   setVideoPlayerDuration(finalURL) {
     const bars = finalURL.split("/");
     const [name, videoDuration] = bars[bars.length - 1].split("-");
-    this.videoDuration += videoDuration;
+    this.videoDuration += parseFloat(videoDuration);
   }
 
   async processBufferSegments(allSegments) {

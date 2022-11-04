@@ -20,6 +20,8 @@ async function main() {
 
   videoPlayer.initializeCodec();
   videoComponent.initializePlayer();
+
+  window.nextChunck = (data) => videoPlayer.nextChunck(data);
 }
 
 window.onload = main;
