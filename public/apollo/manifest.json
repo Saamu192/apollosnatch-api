@@ -19,7 +19,7 @@
   "apollo lutando contra um morango": {
     "url": "$HOST/timeline/02.apollo_brincando_com_morango/02.apollo_brincando_com_morango-26.888707-$RESOLUTION.mp4",
     "at": 28,
-    "options": ["Finalizar", "Apollo Lutando contra um Morango"],
+    "options": ["Finalizar", "Acordar Apollo"],
     "defaultOption": "Finalizar"
   },
   "finalizar": {
