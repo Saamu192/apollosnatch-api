@@ -3,6 +3,7 @@ class VideoMediaPlayer {
     this.manifestJSON = manifestJSON;
     this.videoElement = null;
     this.sourceBuffer = null;
+    this.selected = {};
   }
 
   initializeCodec() {
@@ -18,7 +19,24 @@ class VideoMediaPlayer {
       alert(`Seu browser não suporta o codec ${this.manifestJSON.codec}`);
       return;
     }
+
+    const mediaSource = new MediaSource();
+    this.videoElement.src = URL.createObjectURL(mediaSource);
+
+    mediaSource.addEventListener(
+      "sourceopen",
+      this.sourceOpenWrapper(mediaSource)
+    );
   }
+  sourceOpenWrapper(mediaSource) {
+    return async (_) => {
+      this.sourceBuffer = mediaSource.addSourceBuffer(this.manifestJSON.codec);
+      const selected = (this.selected = this.manifestJSON.intro);
+      mediaSource.duration = 0;
+    };
+
+}
+async fileDownload()
 }
 
 export { VideoMediaPlayer };

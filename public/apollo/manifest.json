@@ -3,6 +3,7 @@
   "fileResolutionTag": "$RESOLUTION",
   "localHost": "http://127.0.0.1:8081",
   "productionHost": "",
+  "codec": "video/mp4; codecs=\"avc.64001F,mp4a.40.2\"",
   "intro": {
     "url": "$HOST/timeline/01.apollo_dormindo/01.apollo_dormindo-7.987664-$RESOLUTION.mp4",
     "at": 5,
