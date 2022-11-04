@@ -38,6 +38,7 @@ class VideoMediaPlayer {
       await this.fileDownload(selected.url);
     };
   }
+
   async fileDownload(url) {
     const prepareUrl = {
       url,
@@ -49,6 +50,12 @@ class VideoMediaPlayer {
     this.setVideoPlayerDuration(finalUrl);
     const data = await this.network.fetchFile(finalUrl);
     return this.processBufferSegments(data);
+  }
+
+  setVideoPlayerDuration(finalURL) {
+    const bars = finalURL.split("/");
+    const [name, videoDuration] = bars[bars.length - 1].split("-");
+    this.videoDuration += videoDuration;
   }
 }
 
