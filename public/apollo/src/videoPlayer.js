@@ -3,6 +3,7 @@ class VideoMediaPlayer {
     this.manifestJSON = manifestJSON;
     this.network = network;
     this.videoComponent = videoComponent;
+
     this.videoElement = null;
     this.sourceBuffer = null;
     this.activeItem = {};
@@ -15,13 +16,13 @@ class VideoMediaPlayer {
     this.videoElement = document.getElementById("vid");
     const mediaSourceSupported = !!window.MediaSource;
     if (!mediaSourceSupported) {
-      alert("Seu Browser ou Sistema não tem suporte a MSE");
+      alert("Seu browser ou sistema nao tem suporte a MSE!");
       return;
     }
 
     const codecSupported = MediaSource.isTypeSupported(this.manifestJSON.codec);
     if (!codecSupported) {
-      alert(`Seu browser não suporta o codec ${this.manifestJSON.codec}`);
+      alert(`Seu browser nao suporta o codec: ${this.manifestJSON.codec}`);
       return;
     }
 
@@ -40,11 +41,11 @@ class VideoMediaPlayer {
       const selected = (this.selected = this.manifestJSON.intro);
       mediaSource.duration = this.videoDuration;
       await this.fileDownload(selected.url);
-      setInterval(this.waitForQuestion.bind(this), 200);
+      setInterval(this.waitForQuestions.bind(this), 200);
     };
   }
 
-  waitForQuestion() {
+  waitForQuestions() {
     const currentTime = parseInt(this.videoElement.currentTime);
     const option = this.selected.at === currentTime;
     if (!option) {
@@ -56,11 +57,10 @@ class VideoMediaPlayer {
     this.videoComponent.configureModal(this.selected.options);
     this.activeItem = this.selected;
   }
-
-  currentFileResolution() {
+  async currentFileResolution() {
     const LOWEST_RESOLUTION = 144;
     const prepareUrl = {
-      url: this.manifestJSON.tchau.url,
+      url: this.manifestJSON.finalizar.url,
       fileResolution: LOWEST_RESOLUTION,
       fileResolutionTag: this.manifestJSON.fileResolutionTag,
       hostTag: this.manifestJSON.hostTag,
@@ -68,19 +68,19 @@ class VideoMediaPlayer {
     const url = this.network.parseManifestURL(prepareUrl);
     return this.network.getProperResolution(url);
   }
-
-  async nextChunck(data) {
+  async nextChunk(data) {
     const key = data.toLowerCase();
     const selected = this.manifestJSON[key];
     this.selected = {
       ...selected,
       at: parseInt(this.videoElement.currentTime + selected.at),
     };
+
     this.manageLag(this.selected);
     this.videoElement.play();
+
     await this.fileDownload(selected.url);
   }
-
   manageLag(selected) {
     if (!!~this.selections.indexOf(selected.url)) {
       selected.at += 5;
@@ -91,12 +91,14 @@ class VideoMediaPlayer {
   }
 
   async fileDownload(url) {
+    const fileResolution = await this.currentFileResolution();
     const prepareUrl = {
       url,
-      fileResolution: 360,
+      fileResolution,
       fileResolutionTag: this.manifestJSON.fileResolutionTag,
       hostTag: this.manifestJSON.hostTag,
     };
+
     const finalUrl = this.network.parseManifestURL(prepareUrl);
     this.setVideoPlayerDuration(finalUrl);
     const data = await this.network.fetchFile(finalUrl);
@@ -117,7 +119,6 @@ class VideoMediaPlayer {
       const updateEnd = (_) => {
         sourceBuffer.removeEventListener("updateend", updateEnd);
         sourceBuffer.timestampOffset = this.videoDuration;
-
         return resolve();
       };
 
@@ -126,5 +127,3 @@ class VideoMediaPlayer {
     });
   }
 }
-
-export { VideoMediaPlayer };
