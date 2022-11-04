@@ -1,6 +1,7 @@
 class VideoMediaPlayer {
-  constructor({ manifestJSON }) {
+  constructor({ manifestJSON, network }) {
     this.manifestJSON = manifestJSON;
+    this.network = network;
     this.videoElement = null;
     this.sourceBuffer = null;
     this.selected = {};

@@ -1,3 +1,4 @@
+import { Network } from "./src/network";
 import { VideoComponent } from "./src/videoComponent";
 import { VideoMediaPlayer } from "./src/videoPlayer";
 
@@ -10,7 +11,8 @@ async function main() {
   const host = isLocal ? manifestJSON.localHost : manifestJSON.productionHost;
 
   const videoComponent = new VideoComponent();
-  const videoPlayer = new VideoMediaPlayer({ manifestJSON });
+  const network = new Network({ host });
+  const videoPlayer = new VideoMediaPlayer({ manifestJSON, network });
 
   videoPlayer.initializeCodec();
   videoComponent.initializePlayer();
